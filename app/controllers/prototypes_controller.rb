@@ -1,4 +1,5 @@
 class PrototypesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :edit, :destory]
   before_action :set_prototype, only: [:edit, :show, :update]
 
   def index
@@ -23,7 +24,9 @@ class PrototypesController < ApplicationController
   end
 
   def edit
-
+    unless (@prototype.user_id == current_user.id)
+      redirect_to action: :index
+    end
   end
 
   def update
